@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  test_app:
+    build: ./
+    command: ./test_app
+    ports:
+      - 8000:8000
+    entrypoint: bash -c "
+      until ((echo > /dev/tcp/db/5432) >/dev/null 2>&1); do sleep 5; done &&
+        ./main"
+    privileged: true

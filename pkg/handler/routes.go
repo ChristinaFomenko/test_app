@@ -1,15 +1,17 @@
 package handler
 
 import (
+	"github.com/ChristinaFomenko/test_app/pkg/repository"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
 type CalculatorHandler struct {
+	Service repository.Service
 }
 
-func NewCalculatorHandler(r *mux.Router) {
-	handler := CalculatorHandler{}
+func NewCalculatorHandler(r *mux.Router, s repository.Service) {
+	handler := CalculatorHandler{Service: s}
 	r.HandleFunc("/api/add", handler.AddHandler).Methods("GET")
 	r.HandleFunc("/api/div", handler.DivHandler).Methods("GET")
 	r.HandleFunc("/api/mul", handler.MulHandler).Methods("GET")
@@ -23,6 +25,8 @@ func (c *CalculatorHandler) AddHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params.Operation = "+"
+	res := c.Service.Calculate(r.Context(), params)
+	SendOKResponse(res, w)
 }
 
 func (c *CalculatorHandler) SubHandler(w http.ResponseWriter, r *http.Request) {
@@ -32,6 +36,8 @@ func (c *CalculatorHandler) SubHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params.Operation = "-"
+	res := c.Service.Calculate(r.Context(), params)
+	SendOKResponse(res, w)
 }
 
 func (c *CalculatorHandler) MulHandler(w http.ResponseWriter, r *http.Request) {
@@ -41,6 +47,8 @@ func (c *CalculatorHandler) MulHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params.Operation = "*"
+	res := c.Service.Calculate(r.Context(), params)
+	SendOKResponse(res, w)
 }
 
 func (c *CalculatorHandler) DivHandler(w http.ResponseWriter, r *http.Request) {
@@ -50,5 +58,7 @@ func (c *CalculatorHandler) DivHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params.Operation = "/"
+	res := c.Service.Calculate(r.Context(), params)
+	SendOKResponse(res, w)
 
 }

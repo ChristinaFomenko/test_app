@@ -9,5 +9,5 @@ type Input struct {
 type Result struct {
 	Success bool
 	ErrCode string
-	Value   float64
+	Value   int
 }

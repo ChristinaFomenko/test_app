@@ -1,6 +1,8 @@
-package test_app
+package main
 
 import (
+	"github.com/ChristinaFomenko/test_app/pkg/config"
+	"github.com/ChristinaFomenko/test_app/pkg/handler"
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -8,6 +10,8 @@ import (
 
 func main() {
 	r := mux.NewRouter()
+	service := handler.NewCalculator(config.Timeout.ContextTimeout)
+	handler.NewCalculatorHandler(r, service)
 	http.Handle("/", r)
 
 	srv := &http.Server{
