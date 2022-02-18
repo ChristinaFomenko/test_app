@@ -20,19 +20,23 @@ func (ca *Calculator) Calculate(c context.Context, params model.Input) model.Res
 	res := model.Result{
 		Success: true,
 		ErrCode: "",
-		Value:   0,
+		Value:   getValue(params),
 	}
+	return res
+}
+
+func getValue(params model.Input) int {
+	var sum int
 	switch params.Operation {
 	case "+":
-		res.Value = params.A + params.B
+		sum = params.A + params.B
 	case "-":
-		res.Value = params.A - params.B
+		sum = params.A - params.B
 	case "*":
-		res.Value = params.A * params.B
+		sum = params.A * params.B
 	case "/":
-		res.Value = params.A / params.B
+		sum = params.A / params.B
 
 	}
-
-	return res
+	return sum
 }
